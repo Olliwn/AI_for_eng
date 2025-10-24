@@ -1,4 +1,6 @@
 import React from 'react';
+import { BrainIcon, EyeIcon, HandRaisedIcon, BoltIcon, MagnifyingGlassIcon, LockClosedIcon, MemoryChipIcon, ArrowPathIcon } from '../components/IconComponents';
+
 
 const Section: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
     <div className="bg-[#2A2D3A] rounded-lg shadow-lg p-6 mb-8">
@@ -9,74 +11,218 @@ const Section: React.FC<{ title: string; children: React.ReactNode }> = ({ title
     </div>
 );
 
+const AgentLoopDiagram: React.FC = () => {
+    return (
+        <div className="my-8 flex justify-center items-center">
+            <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
+                {/* Observe */}
+                <div className="text-center">
+                    <div className="bg-[#181B24] p-4 rounded-lg w-48">
+                        <EyeIcon className="w-10 h-10 text-[#00A9CE] mx-auto mb-2" />
+                        <h3 className="font-bold text-lg text-white">Observe</h3>
+                        <p className="text-xs text-gray-400 mt-1">Perceives its environment via tools (e.g., web search, file access).</p>
+                    </div>
+                </div>
+
+                <div className="text-3xl text-[#00A9CE] font-mono transform md:-translate-y-4">→</div>
+
+                {/* Think */}
+                <div className="text-center">
+                    <div className="bg-[#181B24] p-4 rounded-lg w-48">
+                        <BrainIcon className="w-10 h-10 text-[#00A9CE] mx-auto mb-2" />
+                        <h3 className="font-bold text-lg text-white">Think</h3>
+                        <p className="text-xs text-gray-400 mt-1">Reasons about observations and goals to create a plan (LLM call).</p>
+                    </div>
+                </div>
+
+                <div className="text-3xl text-[#00A9CE] font-mono transform md:translate-y-4 rotate-90 md:rotate-0">→</div>
+
+                {/* Act */}
+                <div className="text-center">
+                    <div className="bg-[#181B24] p-4 rounded-lg w-48">
+                        <HandRaisedIcon className="w-10 h-10 text-[#00A9CE] mx-auto mb-2" />
+                        <h3 className="font-bold text-lg text-white">Act</h3>
+                        <p className="text-xs text-gray-400 mt-1">Executes a chosen action by calling a tool (e.g., write file, run command).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const AgentLoopDiagramRow: React.FC<{ step: number; thought: React.ReactNode; action: React.ReactNode; observation: React.ReactNode }> = ({ step, thought, action, observation }) => {
+    const Cell: React.FC<{ type: 'Thought' | 'Action' | 'Observation'; children: React.ReactNode }> = ({ type, children }) => {
+        const typeStyles = {
+            Thought: { icon: <BrainIcon className="w-5 h-5" />, color: 'text-purple-400' },
+            Action: { icon: <BoltIcon className="w-5 h-5" />, color: 'text-amber-400' },
+            Observation: { icon: <MagnifyingGlassIcon className="w-5 h-5" />, color: 'text-teal-300' },
+        };
+        return (
+            <div className="flex-1 bg-[#2A2D3A] p-4 rounded-lg">
+                <div className="flex items-center space-x-2">
+                    <span className="text-xl">{typeStyles[type].icon}</span>
+                    <h4 className={`font-bold ${typeStyles[type].color}`}>{type}</h4>
+                </div>
+                 <div className="text-sm text-gray-300 mt-2 prose prose-invert max-w-none prose-p:m-0 prose-code:text-amber-300 prose-code:before:content-none prose-code:after:content-none prose-code:bg-[#34384A] prose-code:rounded prose-code:p-1 prose-code:font-mono">
+                    {children}
+                </div>
+            </div>
+        );
+    };
+
+    return (
+        <div className="flex items-stretch space-x-4">
+            <div className="flex flex-col items-center pt-2">
+                <div className="w-8 h-8 rounded-full bg-[#00A9CE] text-white flex items-center justify-center font-bold">
+                    {step}
+                </div>
+            </div>
+            <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4">
+                <Cell type="Thought">{thought}</Cell>
+                <Cell type="Action">{action}</Cell>
+                <Cell type="Observation">{observation}</Cell>
+            </div>
+        </div>
+    );
+};
+
+
 const AgentsPage: React.FC = () => {
     return (
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-6xl mx-auto">
             <h1 className="text-3xl font-bold text-[#00A9CE] mb-2">AI Agents</h1>
-            <p className="text-gray-400 mb-8">An AI agent is an autonomous system that perceives its environment, makes decisions, and takes actions to achieve specific goals.</p>
+            <p className="text-gray-400 mb-8 bg-[#2A2D3A] p-4 rounded-lg border-l-4 border-[#00A9CE]">
+                An AI agent is a computational system that perceives its environment, processes inputs, makes decisions based on learned patterns, and takes actions to achieve specific goals.
+            </p>
 
-            <Section title="What is an Agent? The Core Loop">
-                <p>
-                    Most agents operate on a variation of the <strong>ReAct (Reason + Act)</strong> loop. This is a continuous cycle where the agent:
+            <Section title="The Core Agentic Loop">
+                 <p>
+                    Most modern AI agents operate on a simple yet powerful <strong>Observe → Think → Act</strong> cycle. This loop, often implemented using a pattern like ReAct (Reason + Act), allows the agent to iteratively work towards its goal.
                 </p>
-                <ol>
-                    <li><strong>Observes:</strong> Gathers information about its current state and environment (perception).</li>
-                    <li><strong>Thinks:</strong> Reasons about the observations, the goal, and its available tools to form a plan or decide on the next action (model).</li>
-                    <li><strong>Acts:</strong> Executes a chosen action (e.g., call a tool, run a command, respond to the user) (controller).</li>
-                </ol>
-                <p>This loop continues until the agent determines that the goal has been achieved.</p>
+                <AgentLoopDiagram />
+                <p>The loop continues, chaining together observations and actions, until the agent determines that its high-level goal has been achieved.</p>
             </Section>
 
-            <Section title="Example 1: Simple Agent with a Framework (e.g., LangChain)">
-                <p>Agentic frameworks provide the building blocks to assemble agents. Here’s a conceptual look at creating a simple "research assistant" agent.</p>
+            <div className="bg-[#2A2D3A] rounded-lg shadow-lg p-6 mb-8">
+                <h2 className="text-2xl font-bold text-[#00A9CE] mb-4">Example: Simple Research Agent</h2>
                 
-                <h4>1. Define the Goal</h4>
-                <p>The user gives a high-level objective: <code>"What were the key findings of the latest AlphaFold paper and how does it compare to previous versions?"</code></p>
-                
-                <h4>2. Provide Tools (Perception/Action)</h4>
-                <p>We give the agent a set of capabilities, which are functions it can choose to call:</p>
-                <ul>
-                    <li><code>web_search(query: string)</code>: Searches the internet for information.</li>
-                    <li><code>read_document(url: string)</code>: Reads the content of a specific URL, like a PDF of a research paper.</li>
-                    <li><code>summarize(text: string)</code>: Summarizes a long piece of text.</li>
-                </ul>
+                <div className="mb-6">
+                    <h4 className="font-bold text-lg text-white mb-2">1. The Goal</h4>
+                    <p className="bg-[#1C1F2A] p-3 rounded-lg text-gray-300">"What were the key findings of the latest AlphaFold paper and how does it compare to previous versions? Save the results to a file named 'alphafold_summary.md'."</p>
+                </div>
 
-                <h4>3. The Agentic Loop in Action</h4>
-                <ul>
-                    <li><strong>Thought 1:</strong> "I need to find the latest AlphaFold paper. I will use the `web_search` tool."</li>
-                    <li><strong>Action 1:</strong> Calls <code>web_search("latest AlphaFold paper")</code>.</li>
-                    <li><strong>Observation 1:</strong> Gets back a list of search results, including a link to the paper on arXiv.</li>
-                    <li><strong>Thought 2:</strong> "I have the link to the paper. Now I need to read it using the `read_document` tool."</li>
-                    <li><strong>Action 2:</strong> Calls <code>read_document("https://arxiv.org/...")</code>.</li>
-                    <li><strong>Observation 2:</strong> Gets the full text of the paper. It's very long.</li>
-                    <li><strong>Thought 3:</strong> "The text is too long to analyze directly. I will use the `summarize` tool to extract key findings and then search for comparisons."</li>
-                    <li><strong>Action 3:</strong> ...and so on, until it has gathered enough information to construct a final answer.</li>
-                </ul>
-            </Section>
+                <div className="mb-6">
+                    <h4 className="font-bold text-lg text-white mb-2">2. The Tools (API for Action)</h4>
+                    <div className="bg-[#1C1F2A] p-4 rounded-lg pl-12">
+                         <ul className="list-disc">
+                            <li><code>web_search(query: string)</code>: Searches the internet for information.</li>
+                            <li><code>read_document(url: string)</code>: Reads the content of a specific URL.</li>
+                            <li><code>save_findings(findings: string, filename: string)</code>: Saves text to a local file.</li>
+                        </ul>
+                    </div>
+                </div>
 
-            <Section title="Example 2: Cursor's Agent Mode">
-                <p>Cursor's "Agent Mode" is a sophisticated, highly-specialized agent for software development tasks. It demonstrates an agent with deep environmental perception and a powerful set of actions.</p>
-                
-                <h4>Perception (The Environment)</h4>
-                <p>Cursor's agent doesn't just see text; it perceives the entire development environment:</p>
-                <ul>
-                    <li><strong>The entire codebase:</strong> It can read any file in your project, not just the ones you have open.</li>
-                    <li><strong>File structure:</strong> It understands the directory layout and relationships between files.</li>
-                    <li><strong>The terminal:</strong> It can run commands (like `npm install` or `git status`) and see the output.</li>
-                    <li><strong>LSP/Compiler feedback:</strong> It can perceive errors and warnings from the language server.</li>
-                </ul>
+                <div>
+                    <h4 className="font-bold text-lg text-white mb-2">3. The Prompt That Drives the Agent</h4>
+                    <p className="text-gray-400 mb-4">To make the agent work, we send a detailed system prompt to the LLM. This prompt defines the rules, the tools, and the reasoning format (e.g., ReAct). The user's goal is appended to this prompt.</p>
+                    <div className="bg-[#1C1F2A] p-4 rounded-lg text-sm text-gray-300">
+                        <p className="font-bold text-gray-100">You are a research assistant. Your goal is to answer the user's question by using the tools provided.</p>
+                        <p className="mt-2">You have access to the following tools:</p>
+                        <ul className="list-disc pl-6 my-2 font-mono">
+                            <li>web_search(query: string)</li>
+                            <li>read_document(url: string)</li>
+                            <li>save_findings(findings: string, filename: string)</li>
+                        </ul>
+                        <p>To use a tool, respond with your thought process and the tool call in the following format:</p>
+                        <div className="bg-[#2A2D3A] p-2 rounded my-2 font-mono">
+                            Thought: [Your reasoning here]<br/>
+                            Action: `tool_name(arg1="value1", ...)`
+                        </div>
+                         <p>After you use a tool, you will be given an Observation. Repeat the Thought/Action cycle until you have the final answer.</p>
+                         <hr class="border-gray-600 my-3" />
+                         <p><strong className="text-gray-100">User's Goal:</strong> "What were the key findings of the latest AlphaFold paper... Save the results to 'alphafold_summary.md'."</p>
+                    </div>
+                </div>
 
-                <h4>Actions (The Tools)</h4>
-                <p>Its actions are developer-centric:</p>
-                <ul>
-                    <li><strong>Read File:</strong> Read the contents of any file.</li>
-                    <li><strong>Write/Edit File:</strong> Make precise changes to one or more files. This is its primary action.</li>
-                    <li><strong>Run Command:</strong> Execute a shell command in the integrated terminal.</li>
-                    <li><strong>Ask User:</strong> If it's unsure how to proceed, it can ask for clarification.</li>
-                </ul>
+                <div>
+                    <h4 className="font-bold text-lg text-white mb-4 mt-6">4. The Agentic Loop in Action</h4>
+                    <div className="space-y-4">
+                       <AgentLoopDiagramRow
+                            step={1}
+                            thought={<p>I need to find the latest AlphaFold paper. I will use the <code>web_search</code> tool.</p>}
+                            action={<p>Calling <code>web_search("latest AlphaFold paper")</code>.</p>}
+                            observation={<p>Search results returned a link to a paper on arXiv: "https://arxiv.org/..."</p>}
+                        />
+                        <AgentLoopDiagramRow
+                            step={2}
+                            thought={<p>I have the link. I will now read the paper's content using the <code>read_document</code> tool.</p>}
+                            action={<p>Calling <code>read_document("https://arxiv.org/...")</code>.</p>}
+                            observation={<p>The full text has been retrieved. I can now analyze it to find the key findings.</p>}
+                        />
+                        <AgentLoopDiagramRow
+                            step={3}
+                            thought={<p>I have analyzed the document and have the summary. I will use the <code>save_findings</code> tool as requested.</p>}
+                            action={<p>Calling <code>save_findings(..., "alphafold_summary.md")</code>.</p>}
+                            observation={<p>File saved successfully. I have completed all parts of the user's request.</p>}
+                        />
+                    </div>
+                </div>
+            </div>
 
-                <p>When you give it a task like <strong>"Refactor the `UserProfile` component to fetch data from the new `/v2/user` endpoint and add a loading state"</strong>, it uses this perception and action loop to read the component, find the API call, modify it, add state management logic, and potentially even check other files that use this component—all autonomously.</p>
-            </Section>
+            <div className="bg-[#2A2D3A] rounded-lg shadow-lg p-6 mb-8">
+                <h2 className="text-2xl font-bold text-[#00A9CE] mb-4">Example 2: Specialized Coding Agent (e.g., Cursor)</h2>
+                <p className="mb-6">Specialized agents have tools and perception tailored to a specific domain, like software development. This allows them to perform complex, multi-step tasks autonomously.</p>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
+                    <div>
+                        <h4 className="font-bold text-lg text-white mb-2">Perception (The Environment)</h4>
+                        <div className="bg-[#1C1F2A] p-4 rounded-lg pl-10">
+                            <ul className="list-disc">
+                                <li>The entire codebase (can read any file).</li>
+                                <li>File structure and directory layout.</li>
+                                <li>Terminal output (from running commands).</li>
+                                <li>Linter and compiler feedback.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 className="font-bold text-lg text-white mb-2">Actions (The Tools)</h4>
+                        <div className="bg-[#1C1F2A] p-4 rounded-lg pl-10">
+                             <ul className="list-disc font-mono">
+                                <li>readFile(path: string)</li>
+                                <li>editFile(path: string, code: string)</li>
+                                <li>runCommand(command: string)</li>
+                                <li>askUser(question: string)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 className="font-bold text-lg text-white mb-2">The Agentic Loop in Action</h4>
+                    <p className="bg-[#1C1F2A] p-3 rounded-lg text-gray-300 mb-4"><strong>Goal:</strong> "Refactor the `UserProfile` component to fetch data from the new `/v2/user` endpoint and add a loading state."</p>
+                    <div className="space-y-4">
+                       <AgentLoopDiagramRow
+                            step={1}
+                            thought={<p>First, I need to understand the component. I'll use <code>readFile</code> to see its current code.</p>}
+                            action={<p>Calling <code>readFile("src/components/UserProfile.tsx")</code>.</p>}
+                            observation={<p>The file content is loaded. It uses an endpoint at <code>/v1/user</code>.</p>}
+                        />
+                        <AgentLoopDiagramRow
+                            step={2}
+                            thought={<p>Now I will modify the file. I need to change the endpoint to <code>/v2/user</code> and add a <code>loading</code> state variable.</p>}
+                            action={<p>Calling <code>editFile("src/components/UserProfile.tsx", ...)</code> with the updated code.</p>}
+                            observation={<p>The file was modified successfully.</p>}
+                        />
+                        <AgentLoopDiagramRow
+                            step={3}
+                            thought={<p>The refactor is done. I should run the linter to check for errors. I will use the <code>runCommand</code> tool.</p>}
+                            action={<p>Calling <code>runCommand("npm run lint -- --fix")</code>.</p>}
+                            observation={<p>The linter finished with no errors. The task is complete.</p>}
+                        />
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };

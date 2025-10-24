@@ -7,6 +7,7 @@ import ContextEngineeringPage from './pages/ContextEngineeringPage';
 import MCPServersPage from './pages/MCPServersPage';
 import AgentsPage from './pages/AgentsPage';
 import AgentDemoPage from './pages/AgentDemoPage';
+import InternalDataPage from './pages/InternalDataPage';
 
 const App: React.FC = () => {
   return (
@@ -19,6 +20,7 @@ const App: React.FC = () => {
             <Route path="/capabilities" element={<CapabilitiesPage />} />
             <Route path="/prompt-engineering" element={<PromptEngineeringPage />} />
             <Route path="/context-engineering" element={<ContextEngineeringPage />} />
+            <Route path="/internal-data" element={<InternalDataPage />} />
             <Route path="/mcp-servers" element={<MCPServersPage />} />
             <Route path="/agents" element={<AgentsPage />} />
             <Route path="/agent-demo" element={<AgentDemoPage />} />

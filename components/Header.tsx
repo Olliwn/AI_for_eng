@@ -1,12 +1,13 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { BrainCircuitIcon } from './IconComponents';
+import { BrainIcon } from './IconComponents';
 
 const Header: React.FC = () => {
   const navItems = [
     { path: '/capabilities', label: 'Capabilities' },
     { path: '/prompt-engineering', label: 'Prompting' },
     { path: '/context-engineering', label: 'Context' },
+    { path: '/internal-data', label: 'Internal Data' },
     { path: '/mcp-servers', label: 'MCP Servers' },
     { path: '/agents', label: 'Agents' },
     { path: '/agent-demo', label: 'Agent Demo' },
@@ -22,7 +23,7 @@ const Header: React.FC = () => {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <div className="flex-shrink-0 text-[#00A9CE]">
-               <BrainCircuitIcon className="h-8 w-8" />
+               <BrainIcon className="h-8 w-8" />
             </div>
             <div className="ml-4 text-gray-100 text-lg font-bold">
               AI in Engineering
