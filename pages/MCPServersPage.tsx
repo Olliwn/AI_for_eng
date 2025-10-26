@@ -1,5 +1,5 @@
 import React from 'react';
-import { LockClosedIcon, BrainIcon, ArrowPathIcon, MemoryChipIcon } from '../components/IconComponents';
+import { LockClosedIcon, BrainIcon, ArrowPathIcon, MemoryChipIcon, HandRaisedIcon, BoltIcon } from '../components/IconComponents';
 
 const Card: React.FC<{ title: string; children: React.ReactNode; className?: string }> = ({ title, children, className }) => (
     <div className={`bg-[#2A2D3A] rounded-lg shadow-lg p-6 ${className}`}>
@@ -131,6 +131,70 @@ const mcpClient: MCPServerAPI = ...
                          <li><strong>Benefit:</strong> Zero setup, deeply integrated with the platform's data, and fully managed. The "action space" is safe but limited to what the provider exposes.</li>
                     </ul>
                 </Card>
+            </div>
+
+            {/* Security Considerations Section */}
+            <div className="mt-12 pt-8 border-t border-gray-700">
+                <h2 className="text-3xl font-bold text-white mb-6 text-center">Security Considerations</h2>
+                <div className="text-center max-w-3xl mx-auto mb-8">
+                    <p className="text-lg text-gray-300">
+                        MCP is powerful, but it introduces new security risks. Think of an MCP server as giving your LLM a keyboard and a terminal—it can act on your behalf, so it's critical to understand and mitigate the risks.
+                    </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {/* Authentication & Authorization Card */}
+                    <div className="bg-[#1C1F2A] p-6 rounded-lg border border-gray-700">
+                        <div className="flex items-center mb-3">
+                            <LockClosedIcon className="h-6 w-6 mr-3 text-red-400" />
+                            <h3 className="text-lg font-semibold text-white">Authentication & Authorization</h3>
+                        </div>
+                        <p className="text-sm text-gray-400">
+                            A misconfigured server could become a "confused deputy," allowing actions that exceed a user's permissions. Use OAuth and the principle of least privilege.
+                        </p>
+                    </div>
+
+                    {/* Prompt Injection Card */}
+                    <div className="bg-[#1C1F2A] p-6 rounded-lg border border-gray-700">
+                        <div className="flex items-center mb-3">
+                            <HandRaisedIcon className="h-6 w-6 mr-3 text-yellow-400" />
+                            <h3 className="text-lg font-semibold text-white">Prompt Injection</h3>
+                        </div>
+                        <p className="text-sm text-gray-400">
+                            A malicious or poorly written prompt could trick the LLM into executing unintended, harmful actions. Always require user confirmation for sensitive operations.
+                        </p>
+                    </div>
+
+                    {/* Tool Injection Card */}
+                    <div className="bg-[#1C1F2A] p-6 rounded-lg border border-gray-700">
+                        <div className="flex items-center mb-3">
+                            <BoltIcon className="h-6 w-6 mr-3 text-blue-400" />
+                            <h3 className="text-lg font-semibold text-white">Tool Injection</h3>
+                        </div>
+                        <p className="text-sm text-gray-400">
+                            A malicious server could disguise a harmful tool with an innocent name, tricking the LLM into selecting it. Pin tool versions and monitor for changes.
+                        </p>
+                    </div>
+
+                    {/* Supply Chain Risks Card */}
+                    <div className="bg-[#1C1F2A] p-6 rounded-lg border border-gray-700">
+                        <div className="flex items-center mb-3">
+                            <ArrowPathIcon className="h-6 w-6 mr-3 text-green-400" />
+                            <h3 className="text-lg font-semibold text-white">Supply Chain Risks</h3>
+                        </div>
+                        <p className="text-sm text-gray-400">
+                            MCP servers are executable code. Only use servers from trusted sources and include them in your standard vulnerability management process.
+                        </p>
+                    </div>
+                </div>
+                <div className="text-center mt-6">
+                    <a href="https://www.redhat.com/en/blog/model-context-protocol-mcp-understanding-security-risks-and-controls" 
+                       target="_blank" 
+                       rel="noopener noreferrer" 
+                       className="text-sm text-blue-400 hover:underline">
+                        Based on research from Red Hat. Read the full article →
+                    </a>
+                </div>
             </div>
         </div>
     );

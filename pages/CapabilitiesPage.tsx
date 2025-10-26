@@ -19,6 +19,7 @@ interface ModelData {
   safetyGuardrails: boolean;
   inputPrice: string;
   outputPrice: string;
+  cachingPrice: string;
   strengths: string;
   notes?: string;
 }
@@ -41,6 +42,7 @@ const models: ModelData[] = [
     safetyGuardrails: true,
     inputPrice: '$2.50',
     outputPrice: '$10.00',
+    cachingPrice: 'N/A',
     strengths: 'Good baseline, but surpassed by newer models.',
     notes: 'Reference model'
   },
@@ -61,6 +63,7 @@ const models: ModelData[] = [
     safetyGuardrails: true,
     inputPrice: '$3.00',
     outputPrice: '$15.00',
+    cachingPrice: 'N/A',
     strengths: 'SOTA reasoning for complex tasks; can be slow.',
     notes: 'Next-gen reasoning'
   },
@@ -80,27 +83,28 @@ const models: ModelData[] = [
     fineTuning: true,
     safetyGuardrails: true,
     inputPrice: '$0.30',
-    outputPrice: '$1.20',
+    outputPrice: '$2.50',
+    cachingPrice: '$0.03',
     strengths: 'Fast, multimodal, strong value for agentic flows.',
     notes: 'Fast & economical'
   },
   {
     name: 'Gemini 2.5 Pro',
     provider: 'Google',
-    contextWindow: '1M',
+    contextWindow: '2M',
     textInput: true,
     imageInput: true,
-    audioInput: true,
     videoInput: true,
-    imageGeneration: true,
-    functionCalling: true,
+    audioInput: true,
     nativeCodeExecution: true,
-    realtimeData: false,
+    functionCalling: true,
     searchGrounding: true,
+    imageGeneration: true,
     fineTuning: true,
     safetyGuardrails: true,
-    inputPrice: '$0.30',
-    outputPrice: '$1.20',
+    inputPrice: '$1.25 - $2.50',
+    outputPrice: '$10.00 - $15.00',
+    cachingPrice: '$0.125 - $0.25',
     strengths: 'Solid all-rounder with advanced multimodal capabilities.',
     notes: 'Advanced reasoning'
   },
@@ -121,6 +125,7 @@ const models: ModelData[] = [
     safetyGuardrails: true,
     inputPrice: '$15.00',
     outputPrice: '$75.00',
+    cachingPrice: '$1.50 / $18.75',
     strengths: 'Top-tier for coding, enterprise use, and complex agents.',
     notes: 'Safety-focused'
   },
@@ -141,6 +146,7 @@ const models: ModelData[] = [
     safetyGuardrails: true,
     inputPrice: '$0.25',
     outputPrice: '$1.25',
+    cachingPrice: '$0.03 / $0.31',
     strengths: 'Unmatched price/performance for agentic workflows.',
     notes: 'Fast & lightweight'
   },
@@ -161,6 +167,7 @@ const models: ModelData[] = [
     safetyGuardrails: false,
     inputPrice: '$3.00',
     outputPrice: '$15.00',
+    cachingPrice: 'N/A',
     strengths: 'Excels at math/STEM reasoning; unique real-time data.',
     notes: 'Real-time X data'
   },
@@ -181,6 +188,7 @@ const models: ModelData[] = [
     safetyGuardrails: false,
     inputPrice: '$0.20',
     outputPrice: '$1.50',
+    cachingPrice: 'N/A',
     strengths: 'Impressive speed-to-performance ratio.',
     notes: 'Optimized speed'
   }
@@ -401,6 +409,18 @@ const CapabilitiesPage: React.FC = () => {
                 </td>
               ))}
             </tr>
+
+            {/* Caching Price */}
+            <tr className="hover:bg-[#34384A]/50 transition-colors">
+              <td className="px-4 py-3 text-sm font-medium text-white sticky left-0 bg-[#2A2D3A] z-10">
+                Context Caching
+              </td>
+              {models.map((model) => (
+                <td key={model.name} className="px-4 py-3 text-center text-sm text-gray-300 font-mono">
+                  {model.cachingPrice}
+                </td>
+              ))}
+            </tr>
             
             {/* Strengths Row */}
             <tr className="bg-[#1C1F2A]">
@@ -439,7 +459,8 @@ const CapabilitiesPage: React.FC = () => {
           <li><strong>Safety Guardrails:</strong> Focus on Constitutional AI principles and highly configurable safety features.</li>
           <li><strong>Search Grounding:</strong> Native integration with web search to provide up-to-date information.</li>
           <li><strong>Real-time Data:</strong> Access to live data feeds (e.g., Grok's X/Twitter integration).</li>
-          <li><strong>Pricing:</strong> Approximate costs as of October 2025. Actual pricing may vary by region and usage tier.</li>
+          <li><strong>Context Caching:</strong> Reduced pricing for repeated tokens in the context (Read/Write pricing for Claude).</li>
+          <li><strong>Pricing:</strong> Approximate costs as of October 2025. Gemini prices are tiered based on context size and modality. Actual pricing may vary.</li>
         </ul>
       </div>
     </div>
