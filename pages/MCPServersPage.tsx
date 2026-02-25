@@ -40,8 +40,14 @@ const mcpClient: MCPServerAPI = ...
 
     return (
         <div className="max-w-7xl mx-auto">
-            <h1 className="text-3xl font-bold text-[#00A9CE] mb-2">Model Context Protocol (MCP)</h1>
-            <p className="text-gray-400 mb-8">A specialized protocol for client-server communication, designed to build powerful, context-aware AI agents.</p>
+            <h1 className="text-3xl font-bold text-[#00A9CE] mb-2">Model Context Protocol (MCP) &amp; Agent Skills</h1>
+            <p className="text-gray-400 mb-4">A specialized protocol for client-server communication, designed to build powerful, context-aware AI agents.</p>
+            <div className="bg-[#00A9CE]/10 border border-[#00A9CE]/30 rounded-lg px-5 py-3 mb-8 text-sm text-gray-300">
+              <strong className="text-white">Origin:</strong> MCP was created by <strong className="text-white">Anthropic</strong> and published as an open standard in November 2024.
+              The specification is available at{' '}
+              <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">modelcontextprotocol.io</a>.
+              Being open and model-agnostic is a deliberate design choice — any LLM with function-calling support can use MCP servers.
+            </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
                 {/* Left Pane (3/5 width) */}
@@ -74,8 +80,8 @@ const mcpClient: MCPServerAPI = ...
                         <p className="mb-4">The MCP defines a clear separation of concerns, positioning the server as an intermediary that exposes a standardized API for the client and LLM to use.</p>
                         
                         <div className="bg-[#181B24] p-4 rounded-lg my-4">
-                            <h4 className="font-bold text-lg text-white text-center mb-2">The GUI Analogy</h4>
-                            <p className="text-center text-gray-300">Think of the MCP server as a GUI for the LLM. A human uses an interface to interact with an application. Similarly, an LLM uses the server's API—its set of tools—to interact with the world, abstracting away low-level details.</p>
+                            <h4 className="font-bold text-lg text-white text-center mb-2">The Machine Interface Principle</h4>
+                            <p className="text-center text-gray-300">MCP exists precisely so that agents work through <em>machine interfaces</em> — structured APIs — rather than graphical UIs designed for humans. A GUI hides information and adds latency; an MCP server exposes a typed, queryable action space that agents can navigate reliably at high speed.</p>
                         </div>
 
                          <div className="grid md:grid-cols-2 gap-6 text-center">
@@ -97,14 +103,15 @@ const mcpClient: MCPServerAPI = ...
                         <p>A client application uses a declaration (like this TypeScript interface) to understand the "API contract" of the MCP server. This ensures the client only attempts to use tools the server has actually exposed.</p>
                         <CodeBlock>{clientDeclarationCode}</CodeBlock>
                     </Card>
-                     <Card title="Popular Implementations" className="mt-8">
+                     <Card title="MCP Server Categories" className="mt-8">
+                        <p className="text-sm text-gray-400 mb-3">Real MCP server types, by the kind of capability they expose:</p>
                         <ul className="space-y-2 text-sm">
-                            <li><strong>OpenDevin:</strong> Open-source agent for code generation.</li>
-                            <li><strong>LangChain (LangServe):</strong> Framework for building and deploying agents.</li>
-                            <li><strong>CrewAI:</strong> System for orchestrating multi-agent collaboration.</li>
-                            <li><strong>Superagent.sh:</strong> Open-source framework for building autonomous agents.</li>
-                            <li><strong>Atlassian Intelligence:</strong> Managed service for Jira/Confluence.</li>
-                            <li><strong>GitHub Copilot:</strong> The backend powering the popular code assistant.</li>
+                            <li><strong className="text-white">Filesystem &amp; shell:</strong> File read/write, directory listing, command execution in a sandboxed environment.</li>
+                            <li><strong className="text-white">Database connectors:</strong> SQL/NoSQL query tools, schema introspection, write operations with guardrails.</li>
+                            <li><strong className="text-white">API connectors:</strong> Issue trackers, wikis, CI/CD systems, cloud services — exposed as typed tool calls.</li>
+                            <li><strong className="text-white">Knowledge bases:</strong> Vector search, semantic retrieval, document summarization over indexed content.</li>
+                            <li><strong className="text-white">Tool execution:</strong> Browser automation, code execution environments, test runners.</li>
+                            <li><strong className="text-white">Agent orchestration:</strong> Spawning sub-agents, managing task state across long-running workflows.</li>
                         </ul>
                     </Card>
                 </div>
@@ -122,15 +129,64 @@ const mcpClient: MCPServerAPI = ...
                     </ul>
                 </Card>
 
-                <Card title="Managed (Hosted) Service">
-                    <p>Using a third-party platform that manages the MCP server, tools, and models for you. You interact with it through a product UI or a public API.</p>
-                    <p><strong>Use Case: Atlassian Intelligence MCP</strong></p>
+                <Card title="Shared / Remote-Hosted">
+                    <p>Running the MCP server on shared infrastructure — a team server, container platform, or cloud service — accessible to multiple users and agents without requiring a local setup.</p>
+                    <p><strong>Use Case: A Shared Knowledge &amp; Tools Server</strong></p>
                      <ul>
-                         <li><strong>Client:</strong> The Jira or Confluence web interface.</li>
-                         <li><strong>Server API:</strong> Atlassian's server exposes a private API with tools like `searchJiraTickets` and `summarizeConfluencePage`.</li>
-                         <li><strong>Benefit:</strong> Zero setup, deeply integrated with the platform's data, and fully managed. The "action space" is safe but limited to what the provider exposes.</li>
+                         <li><strong>Client:</strong> Any agent-native IDE or CLI tool, authenticated via token.</li>
+                         <li><strong>Server API:</strong> Exposes team-specific tools: issue tracker search, knowledge base retrieval, build pipeline triggers.</li>
+                         <li><strong>Benefit:</strong> One server update propagates to every team member. Shared skills and knowledge base stay in sync. No per-developer setup.</li>
                     </ul>
                 </Card>
+            </div>
+
+            {/* Agent Skills Section */}
+            <div className="mt-10">
+                <h2 className="text-2xl font-bold text-[#00A9CE] mb-4">Agent Skills</h2>
+                <div className="bg-[#2A2D3A] rounded-lg shadow-lg p-6 mb-6">
+                    <p className="text-gray-300 mb-4">
+                        An <strong className="text-white">agent skill</strong> is a structured, machine-readable instruction file — typically a <code className="text-amber-300 bg-[#1C1F2A] px-1 rounded text-sm">SKILL.md</code> — that tells an agent how to perform a specific workflow using the tools available to it. Skills are injected into the agent's context at the start of a task.
+                    </p>
+                    <div className="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h3 className="text-lg font-semibold text-white mb-3">What a skill contains</h3>
+                            <ul className="space-y-2 text-sm text-gray-300">
+                                <li className="flex items-start gap-2"><span className="text-[#00A9CE] flex-shrink-0">▸</span><span><strong className="text-white">Purpose:</strong> What workflow this skill handles and when to use it.</span></li>
+                                <li className="flex items-start gap-2"><span className="text-[#00A9CE] flex-shrink-0">▸</span><span><strong className="text-white">Steps:</strong> Ordered list of tool calls, checks, and decisions to make.</span></li>
+                                <li className="flex items-start gap-2"><span className="text-[#00A9CE] flex-shrink-0">▸</span><span><strong className="text-white">Output format:</strong> How results should be structured (table, JSON, prose).</span></li>
+                                <li className="flex items-start gap-2"><span className="text-[#00A9CE] flex-shrink-0">▸</span><span><strong className="text-white">Constraints &amp; notes:</strong> Rate limits, result caps, edge cases the agent should handle.</span></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 className="text-lg font-semibold text-white mb-3">Why skills matter</h3>
+                            <ul className="space-y-2 text-sm text-gray-300">
+                                <li className="flex items-start gap-2"><span className="text-[#00A9CE] flex-shrink-0">▸</span><span><strong className="text-white">Encode institutional knowledge</strong> — workflows that took hours to figure out are reusable by any agent immediately.</span></li>
+                                <li className="flex items-start gap-2"><span className="text-[#00A9CE] flex-shrink-0">▸</span><span><strong className="text-white">Compose with MCP</strong> — a skill references tools by name; swap the MCP server and the skill adapts automatically.</span></li>
+                                <li className="flex items-start gap-2"><span className="text-[#00A9CE] flex-shrink-0">▸</span><span><strong className="text-white">Version-controlled</strong> — plain text in a Git repo; auditable, reviewable, improvable.</span></li>
+                                <li className="flex items-start gap-2"><span className="text-[#00A9CE] flex-shrink-0">▸</span><span><strong className="text-white">Self-documenting</strong> — teaches the agent and serves as human-readable workflow documentation at the same time.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div className="mt-4 bg-[#181B24] rounded-lg p-4">
+                        <p className="text-xs text-gray-400 font-mono whitespace-pre leading-relaxed">{`# SKILL.md — Search open issues by keyword
+
+## Purpose
+Find open issues matching a keyword in the project issue tracker.
+
+## Steps
+1. Call tool: search_issues(query=<keyword>, status="open")
+2. Sort results by priority descending
+3. Return a markdown table: | ID | Title | Priority | Assignee |
+
+## Notes
+- Limit to 25 results to avoid context overflow
+- Include the issue URL in column 1`}</p>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-3">
+                        The skills pattern emerged from practitioner communities and was subsequently formalized by Anthropic's developer tools team. The format is intentionally simple (plain markdown) for maximum portability.{' '}
+                        <a href="/open-ecosystem" className="text-blue-400 hover:underline">See the Open Ecosystem page →</a>
+                    </p>
+                </div>
             </div>
 
             {/* Security Considerations Section */}

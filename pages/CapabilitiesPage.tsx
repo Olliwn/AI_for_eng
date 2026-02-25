@@ -20,31 +20,79 @@ interface ModelData {
   inputPrice: string;
   outputPrice: string;
   cachingPrice: string;
+  metrHorizon?: string;
   strengths: string;
   notes?: string;
+  highlight?: boolean;
 }
 
 const models: ModelData[] = [
   {
-    name: 'GPT-4o',
-    provider: 'OpenAI',
-    contextWindow: '128K',
+    name: 'Claude Opus 4.6',
+    provider: 'Anthropic',
+    contextWindow: '200K',
     textInput: true,
     imageInput: true,
-    audioInput: true,
+    audioInput: false,
     videoInput: false,
-    imageGeneration: true,
+    imageGeneration: false,
     functionCalling: true,
-    nativeCodeExecution: true,
+    nativeCodeExecution: false,
     realtimeData: false,
     searchGrounding: false,
-    fineTuning: true,
+    fineTuning: false,
     safetyGuardrails: true,
-    inputPrice: '$2.50',
-    outputPrice: '$10.00',
-    cachingPrice: 'N/A',
-    strengths: 'Good baseline, but surpassed by newer models.',
-    notes: 'Reference model'
+    inputPrice: '$15.00',
+    outputPrice: '$75.00',
+    cachingPrice: '$1.50 / $18.75',
+    metrHorizon: '14.5 hr',
+    strengths: 'Frontier agent reasoning; 14.5 hr autonomous task horizon.',
+    notes: 'Frontier agent',
+    highlight: true,
+  },
+  {
+    name: 'Claude Sonnet 4.5',
+    provider: 'Anthropic',
+    contextWindow: '200K',
+    textInput: true,
+    imageInput: true,
+    audioInput: false,
+    videoInput: false,
+    imageGeneration: false,
+    functionCalling: true,
+    nativeCodeExecution: false,
+    realtimeData: false,
+    searchGrounding: false,
+    fineTuning: false,
+    safetyGuardrails: true,
+    inputPrice: '$3.00',
+    outputPrice: '$15.00',
+    cachingPrice: '$0.30 / $3.75',
+    metrHorizon: '~2 hr',
+    strengths: 'Best price/performance for coding agents and complex workflows.',
+    notes: 'Balanced'
+  },
+  {
+    name: 'Claude Haiku 4.5',
+    provider: 'Anthropic',
+    contextWindow: '200K',
+    textInput: true,
+    imageInput: true,
+    audioInput: false,
+    videoInput: false,
+    imageGeneration: false,
+    functionCalling: true,
+    nativeCodeExecution: false,
+    realtimeData: false,
+    searchGrounding: false,
+    fineTuning: false,
+    safetyGuardrails: true,
+    inputPrice: '$0.25',
+    outputPrice: '$1.25',
+    cachingPrice: '$0.03 / $0.31',
+    metrHorizon: '—',
+    strengths: 'Unmatched price/performance for high-volume agentic steps.',
+    notes: 'Fast & cheap'
   },
   {
     name: 'GPT-5',
@@ -64,8 +112,52 @@ const models: ModelData[] = [
     inputPrice: '$3.00',
     outputPrice: '$15.00',
     cachingPrice: 'N/A',
-    strengths: 'SOTA reasoning for complex tasks; can be slow.',
-    notes: 'Next-gen reasoning'
+    metrHorizon: '~3.5 hr',
+    strengths: 'Strong reasoning, broad multimodal support.',
+    notes: 'Strong all-rounder'
+  },
+  {
+    name: 'GPT-5.1 Codex',
+    provider: 'OpenAI',
+    contextWindow: '200K',
+    textInput: true,
+    imageInput: true,
+    audioInput: false,
+    videoInput: false,
+    imageGeneration: false,
+    functionCalling: true,
+    nativeCodeExecution: true,
+    realtimeData: false,
+    searchGrounding: false,
+    fineTuning: true,
+    safetyGuardrails: true,
+    inputPrice: '$3.00',
+    outputPrice: '$12.00',
+    cachingPrice: 'N/A',
+    metrHorizon: '~2.9 hr',
+    strengths: 'Specialised for software engineering agent workflows.',
+    notes: 'Code-focused'
+  },
+  {
+    name: 'Gemini 2.5 Pro',
+    provider: 'Google',
+    contextWindow: '2M',
+    textInput: true,
+    imageInput: true,
+    videoInput: true,
+    audioInput: true,
+    nativeCodeExecution: true,
+    functionCalling: true,
+    searchGrounding: true,
+    imageGeneration: true,
+    fineTuning: true,
+    safetyGuardrails: true,
+    inputPrice: '$1.25–$2.50',
+    outputPrice: '$10–$15',
+    cachingPrice: '$0.125–$0.25',
+    metrHorizon: '~2 hr',
+    strengths: 'Largest context window; native search grounding.',
+    notes: 'Long context'
   },
   {
     name: 'Gemini 2.5 Flash',
@@ -85,70 +177,9 @@ const models: ModelData[] = [
     inputPrice: '$0.30',
     outputPrice: '$2.50',
     cachingPrice: '$0.03',
-    strengths: 'Fast, multimodal, strong value for agentic flows.',
+    metrHorizon: '—',
+    strengths: 'Fast, multimodal, excellent value for high-throughput agentic flows.',
     notes: 'Fast & economical'
-  },
-  {
-    name: 'Gemini 2.5 Pro',
-    provider: 'Google',
-    contextWindow: '2M',
-    textInput: true,
-    imageInput: true,
-    videoInput: true,
-    audioInput: true,
-    nativeCodeExecution: true,
-    functionCalling: true,
-    searchGrounding: true,
-    imageGeneration: true,
-    fineTuning: true,
-    safetyGuardrails: true,
-    inputPrice: '$1.25 - $2.50',
-    outputPrice: '$10.00 - $15.00',
-    cachingPrice: '$0.125 - $0.25',
-    strengths: 'Solid all-rounder with advanced multimodal capabilities.',
-    notes: 'Advanced reasoning'
-  },
-  {
-    name: 'Claude 4.5 Sonnet',
-    provider: 'Anthropic',
-    contextWindow: '200K',
-    textInput: true,
-    imageInput: true,
-    audioInput: false,
-    videoInput: false,
-    imageGeneration: false,
-    functionCalling: true,
-    nativeCodeExecution: false,
-    realtimeData: false,
-    searchGrounding: false,
-    fineTuning: false,
-    safetyGuardrails: true,
-    inputPrice: '$15.00',
-    outputPrice: '$75.00',
-    cachingPrice: '$1.50 / $18.75',
-    strengths: 'Top-tier for coding, enterprise use, and complex agents.',
-    notes: 'Safety-focused'
-  },
-  {
-    name: 'Haiku 4.5',
-    provider: 'Anthropic',
-    contextWindow: '200K',
-    textInput: true,
-    imageInput: true,
-    audioInput: false,
-    videoInput: false,
-    imageGeneration: false,
-    functionCalling: true,
-    nativeCodeExecution: false,
-    realtimeData: false,
-    searchGrounding: false,
-    fineTuning: false,
-    safetyGuardrails: true,
-    inputPrice: '$0.25',
-    outputPrice: '$1.25',
-    cachingPrice: '$0.03 / $0.31',
-    strengths: 'Unmatched price/performance for agentic workflows.',
-    notes: 'Fast & lightweight'
   },
   {
     name: 'Grok 4',
@@ -168,38 +199,22 @@ const models: ModelData[] = [
     inputPrice: '$3.00',
     outputPrice: '$15.00',
     cachingPrice: 'N/A',
-    strengths: 'Excels at math/STEM reasoning; unique real-time data.',
-    notes: 'Real-time X data'
+    metrHorizon: '—',
+    strengths: 'Excels at math/STEM; unique real-time data access.',
+    notes: 'STEM / real-time'
   },
-  {
-    name: 'Grok 4-fast',
-    provider: 'xAI',
-    contextWindow: '256K',
-    textInput: true,
-    imageInput: true,
-    audioInput: false,
-    videoInput: false,
-    imageGeneration: false,
-    functionCalling: true,
-    nativeCodeExecution: true,
-    realtimeData: true,
-    searchGrounding: true,
-    fineTuning: false,
-    safetyGuardrails: false,
-    inputPrice: '$0.20',
-    outputPrice: '$1.50',
-    cachingPrice: 'N/A',
-    strengths: 'Impressive speed-to-performance ratio.',
-    notes: 'Optimized speed'
-  }
 ];
 
 const CapabilitiesPage: React.FC = () => {
   return (
     <div className="container mx-auto">
       <h1 className="text-3xl font-bold text-[#00A9CE] mb-2">Frontier Model Capabilities</h1>
-      <p className="text-gray-400 mb-8">
-        Comparison of current leading AI models with their capabilities and pricing (October 2025).
+      <p className="text-gray-400 mb-2">
+        Comparison of leading AI models with their capabilities and pricing (February 2026).
+      </p>
+      <p className="text-sm text-gray-500 mb-8">
+        The <strong className="text-gray-400">METR horizon</strong> column shows the autonomous task duration at which each model succeeds ~50% of the time.{' '}
+        <a href="/trajectory" className="text-blue-400 hover:underline">See the capability trajectory →</a>
       </p>
       
       <div className="overflow-x-auto bg-[#2A2D3A] rounded-lg shadow-xl">
@@ -210,8 +225,8 @@ const CapabilitiesPage: React.FC = () => {
                 Feature
               </th>
               {models.map((model) => (
-                <th key={model.name} scope="col" className="px-4 py-3 text-center text-xs font-medium text-gray-300 uppercase tracking-wider min-w-[120px]">
-                  <div className="font-bold text-[#00A9CE]">{model.name}</div>
+                <th key={model.name} scope="col" className={`px-4 py-3 text-center text-xs font-medium text-gray-300 uppercase tracking-wider min-w-[120px] ${model.highlight ? 'bg-red-900/20' : ''}`}>
+                  <div className={`font-bold ${model.highlight ? 'text-red-400' : 'text-[#00A9CE]'}`}>{model.name}</div>
                   <div className="text-[10px] text-gray-400 mt-1 normal-case">{model.provider}</div>
                   {model.notes && (
                     <div className="text-[9px] text-gray-500 mt-0.5 italic normal-case">{model.notes}</div>
@@ -227,8 +242,20 @@ const CapabilitiesPage: React.FC = () => {
                 Context Window
               </td>
               {models.map((model) => (
-                <td key={model.name} className="px-4 py-3 text-center text-sm text-gray-300">
+                <td key={model.name} className={`px-4 py-3 text-center text-sm text-gray-300 ${model.highlight ? 'bg-red-900/10' : ''}`}>
                   {model.contextWindow}
+                </td>
+              ))}
+            </tr>
+
+            {/* METR Horizon */}
+            <tr className="hover:bg-[#34384A]/50 transition-colors bg-[#1C1F2A]/40">
+              <td className="px-4 py-3 text-sm font-medium text-white sticky left-0 bg-[#2A2D3A] z-10">
+                METR Task Horizon
+              </td>
+              {models.map((model) => (
+                <td key={model.name} className={`px-4 py-3 text-center text-sm font-mono ${model.highlight ? 'bg-red-900/10 text-red-300 font-bold' : 'text-gray-300'}`}>
+                  {model.metrHorizon ?? '—'}
                 </td>
               ))}
             </tr>
@@ -460,7 +487,8 @@ const CapabilitiesPage: React.FC = () => {
           <li><strong>Search Grounding:</strong> Native integration with web search to provide up-to-date information.</li>
           <li><strong>Real-time Data:</strong> Access to live data feeds (e.g., Grok's X/Twitter integration).</li>
           <li><strong>Context Caching:</strong> Reduced pricing for repeated tokens in the context (Read/Write pricing for Claude).</li>
-          <li><strong>Pricing:</strong> Approximate costs as of October 2025. Gemini prices are tiered based on context size and modality. Actual pricing may vary.</li>
+          <li><strong>METR Task Horizon:</strong> Autonomous task duration at which the model succeeds ~50% of the time per METR TH1.1 (Jan 2026) plus Claude Opus 4.6 Feb 2026 datapoint. Dashes indicate no published METR score.</li>
+          <li><strong>Pricing:</strong> Approximate costs as of February 2026. Gemini prices are tiered based on context size and modality. Actual pricing may vary; check provider API docs for current rates.</li>
         </ul>
       </div>
     </div>

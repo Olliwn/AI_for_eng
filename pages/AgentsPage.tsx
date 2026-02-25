@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { BrainIcon, EyeIcon, HandRaisedIcon, BoltIcon, MagnifyingGlassIcon, LockClosedIcon, MemoryChipIcon, ArrowPathIcon } from '../components/IconComponents';
 
 
@@ -91,9 +92,23 @@ const AgentsPage: React.FC = () => {
     return (
         <div className="max-w-6xl mx-auto">
             <h1 className="text-3xl font-bold text-[#00A9CE] mb-2">AI Agents</h1>
-            <p className="text-gray-400 mb-8 bg-[#2A2D3A] p-4 rounded-lg border-l-4 border-[#00A9CE]">
+            <p className="text-gray-400 mb-6 bg-[#2A2D3A] p-4 rounded-lg border-l-4 border-[#00A9CE]">
                 An AI agent is a computational system that perceives its environment, processes inputs, makes decisions based on learned patterns, and takes actions to achieve specific goals.
             </p>
+
+            {/* Why now callout */}
+            <div className="bg-[#2A2D3A] rounded-lg shadow-lg p-5 mb-8 flex items-start gap-4">
+                <div className="text-3xl flex-shrink-0">📈</div>
+                <div>
+                    <h2 className="text-lg font-bold text-white mb-1">Before diving in: why now?</h2>
+                    <p className="text-sm text-gray-300">
+                        Agent capability is doubling roughly every 4 months. In early 2023, frontier agents could handle ~3.5 minutes of autonomous work. By February 2026, that number is <strong className="text-white">14.5 hours</strong> — a full working day, unassisted. This is measured by independent third-party benchmarks, not marketing claims. Understanding this trajectory matters because the right time to build the infrastructure and workflows is <em>before</em> you need them.
+                    </p>
+                    <Link to="/trajectory" className="text-[#00A9CE] hover:underline text-sm mt-2 inline-block">
+                        See the capability trajectory with data →
+                    </Link>
+                </div>
+            </div>
 
             <Section title="The Core Agentic Loop">
                  <p>
@@ -222,6 +237,80 @@ const AgentsPage: React.FC = () => {
                         />
                     </div>
                 </div>
+            </div>
+
+            {/* Engineering workflow patterns */}
+            <div className="bg-[#2A2D3A] rounded-lg shadow-lg p-6 mb-8">
+                <h2 className="text-2xl font-bold text-[#00A9CE] mb-4">Engineering Agent Patterns</h2>
+                <p className="text-gray-300 mb-6">
+                    These patterns have emerged from practitioners working with frontier agents on real engineering tasks. They are not theoretical — they represent the workflows that produce consistent, high-quality results.
+                </p>
+                <div className="grid md:grid-cols-2 gap-5">
+                    <div className="bg-[#1C1F2A] rounded-lg p-5">
+                        <h3 className="font-bold text-white mb-2">Multi-file context before acting</h3>
+                        <p className="text-sm text-gray-400">
+                            Before writing any code, the agent reads all relevant files — the target module, its tests, related interfaces, and documentation. Acting with full context produces coherent changes; acting with partial context produces patches that break elsewhere.
+                        </p>
+                        <div className="mt-3 text-xs font-mono text-gray-500 bg-[#181B24] rounded p-2">
+                            readFile(module) → readFile(tests) → readFile(interface) → then edit
+                        </div>
+                    </div>
+
+                    <div className="bg-[#1C1F2A] rounded-lg p-5">
+                        <h3 className="font-bold text-white mb-2">Test-run-debug loop</h3>
+                        <p className="text-sm text-gray-400">
+                            The agent writes code, runs the test suite, reads the failure output, diagnoses the issue, and iterates — without human intervention at each step. This loop is only viable once a fast, reliable test runner is accessible as a tool.
+                        </p>
+                        <div className="mt-3 text-xs font-mono text-gray-500 bg-[#181B24] rounded p-2">
+                            editFile → runTests → readOutput → editFile → …
+                        </div>
+                    </div>
+
+                    <div className="bg-[#1C1F2A] rounded-lg p-5">
+                        <h3 className="font-bold text-white mb-2">Tool-chain for domain tasks</h3>
+                        <p className="text-sm text-gray-400">
+                            Domain-specific agents combine a chain of MCP tools purpose-built for the task: a build system connector, a static analysis tool, a hardware-specific simulator, a documentation search index. The agent's capability is bounded by the quality of its tool-chain.
+                        </p>
+                        <div className="mt-3 text-xs font-mono text-gray-500 bg-[#181B24] rounded p-2">
+                            search_docs → run_linter → invoke_simulator → report
+                        </div>
+                    </div>
+
+                    <div className="bg-[#1C1F2A] rounded-lg p-5">
+                        <h3 className="font-bold text-white mb-2">Human-in-the-loop checkpoints</h3>
+                        <p className="text-sm text-gray-400">
+                            For long-horizon tasks, agents propose their plan and await human approval before executing irreversible actions (merging code, deploying, sending communications). This pattern preserves autonomy while maintaining oversight on consequential steps.
+                        </p>
+                        <div className="mt-3 text-xs font-mono text-gray-500 bg-[#181B24] rounded p-2">
+                            plan → askUser(approve?) → execute → pullRequest
+                        </div>
+                    </div>
+
+                    <div className="bg-[#1C1F2A] rounded-lg p-5">
+                        <h3 className="font-bold text-white mb-2">Skill reuse across sessions</h3>
+                        <p className="text-sm text-gray-400">
+                            Workflows that required hours of trial-and-error are captured as agent skills (SKILL.md files). On the next invocation, the agent reads the skill and executes the same workflow without re-discovering the steps. Institutional knowledge becomes agent-executable.
+                        </p>
+                        <div className="mt-3 text-xs font-mono text-gray-500 bg-[#181B24] rounded p-2">
+                            readSkill(SKILL.md) → execute workflow as defined
+                        </div>
+                    </div>
+
+                    <div className="bg-[#1C1F2A] rounded-lg p-5">
+                        <h3 className="font-bold text-white mb-2">Progressive autonomy expansion</h3>
+                        <p className="text-sm text-gray-400">
+                            Teams start with human approval on every action, observe the agent's behavior, and gradually expand its autonomy scope as trust is established. Guardrails are loosened incrementally, not all at once. This is the engineering-safe path to unsupervised agent operation.
+                        </p>
+                        <div className="mt-3 text-xs font-mono text-gray-500 bg-[#181B24] rounded p-2">
+                            supervised → approved actions → closed-loop per domain
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="flex justify-between mt-2">
+                <Link to="/trajectory" className="text-[#00A9CE] hover:underline text-sm">← Why Now</Link>
+                <Link to="/mcp-servers" className="text-[#00A9CE] hover:underline text-sm">MCP &amp; Skills →</Link>
             </div>
         </div>
     );

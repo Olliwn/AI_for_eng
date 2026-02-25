@@ -13,14 +13,14 @@ const Section: React.FC<{ title: string; children: React.ReactNode }> = ({ title
 
 const FullRAGPipelineDiagram: React.FC = () => {
     const ingestSteps = [
-        { name: 'Ingest', service: 'Cloud Storage' },
-        { name: 'Chunk & Clean', service: 'Cloud Functions' },
-        { name: 'Embed', service: 'Vertex AI Embeddings API' },
-        { name: 'Index', service: 'Vertex AI Vector Search' },
+        { name: 'Ingest', service: 'Object Storage' },
+        { name: 'Chunk & Clean', service: 'Processing Pipeline' },
+        { name: 'Embed', service: 'Embedding Model' },
+        { name: 'Index', service: 'Vector Index' },
     ];
     const retrievalSteps = [
         { name: 'Search', service: 'User Query' },
-        { name: 'Augment & Generate', service: 'Gemini' },
+        { name: 'Augment & Generate', service: 'Language Model' },
     ];
     return (
          <div className="bg-[#1C1F2A] p-6 rounded-lg my-6">
@@ -98,7 +98,7 @@ const InternalDataPage: React.FC = () => {
                         This requires a conscious move towards more <strong>ingestion-friendly formats</strong>. For example, instead of embedding a screenshot of a diagram in a wiki page (which requires complex and often inaccurate OCR to parse), teams should use structured, text-based formats like Mermaid or Draw.io files. Data that is "born" AI-friendly is vastly more valuable than data that has to be forced through complex cleaning processes.
                     </p>
                     <p>
-                        The diagram below illustrates the full, end-to-end RAG (Retrieval-Augmented Generation) pipeline that consumes this data, using Google Cloud services as a reference architecture.
+                        The diagram below illustrates the full, end-to-end RAG (Retrieval-Augmented Generation) pipeline that consumes this data. The components shown are generic — the same logical architecture applies regardless of which cloud provider, embedding model, or vector store you use.
                     </p>
                 </div>
                  <FullRAGPipelineDiagram />

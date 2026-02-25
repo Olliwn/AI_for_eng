@@ -4,13 +4,14 @@ import { BrainIcon } from './IconComponents';
 
 const Header: React.FC = () => {
   const navItems = [
+    { path: '/trajectory', label: 'Why Now' },
     { path: '/capabilities', label: 'Capabilities' },
-    { path: '/prompt-engineering', label: 'Prompting' },
-    { path: '/context-engineering', label: 'Context' },
-    { path: '/internal-data', label: 'Internal Data' },
-    { path: '/mcp-servers', label: 'MCP Servers' },
     { path: '/agents', label: 'Agents' },
-    { path: '/agent-demo', label: 'Agent Demo' },
+    { path: '/mcp-servers', label: 'MCP & Skills' },
+    { path: '/open-ecosystem', label: 'Open Ecosystem' },
+    { path: '/context-engineering', label: 'Context' },
+    { path: '/prompt-engineering', label: 'Prompting' },
+    { path: '/internal-data', label: 'Internal Data' },
   ];
 
   const linkClasses = "px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 ease-in-out";
